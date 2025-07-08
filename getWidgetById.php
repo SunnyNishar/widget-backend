@@ -18,7 +18,6 @@ if (!isset($_GET['id'])) {
 
 $widgetId = $_GET['id'];
 
-// Replace with your actual database connection details
 $servername = "localhost";
 $username = "root";
 $password = "";
