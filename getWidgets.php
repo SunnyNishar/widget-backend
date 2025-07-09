@@ -1,32 +1,37 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
+require 'vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
-// Allow POST requests from frontend
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
+require_once __DIR__ . '/config/headers.php';
 
-// Connect to DB
-$conn = new mysqli("localhost", "root", "", "widget_db");
+$secretKey = "bf27dc79d09b01ad34c7b33b7dbf0e259b7d7f3b778bc0d8da7b42627c8b5fa9"; // same as in login.php
 
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "error" => "DB connection failed"]);
+// Step 1: Extract JWT from Authorization header
+$headers = getallheaders();
+$authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+
+if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+    echo json_encode(["success" => false, "error" => "Missing or invalid Authorization header"]);
     exit();
 }
 
-// Get raw POST data
-$data = json_decode(file_get_contents("php://input"), true);
+$jwt = $matches[1];
 
-if (!isset($data['user_id'])) {
-    echo json_encode(["success" => false, "error" => "Missing user_id"]);
+try {
+    $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
+    $userId = $decoded->user_id;
+} catch (Exception $e) {
+    echo json_encode(["success" => false, "error" => "Invalid or expired token"]);
     exit();
 }
 
-$user_id = intval($data['user_id']);
+// Step 2: Connect to database
+require_once __DIR__ . '/config/db.php';
 
-// Fetch widgets only for this user
+// Step 3: Fetch widgets for authenticated user
 $stmt = $conn->prepare("SELECT id, widget_name FROM widgets WHERE user_id = ?");
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $userId);
 $stmt->execute();
 
 $result = $stmt->get_result();

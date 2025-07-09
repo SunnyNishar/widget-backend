@@ -1,18 +1,14 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Content-Type: application/json");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+require 'vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
+require_once __DIR__ . '/config/headers.php';
+
+$secretKey = "bf27dc79d09b01ad34c7b33b7dbf0e259b7d7f3b778bc0d8da7b42627c8b5fa9";
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Connect to DB
-$conn = new mysqli("localhost", "root", "", "widget_db");
-
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Database connection failed"]);
-    exit();
-}
+require_once __DIR__ . '/config/db.php';
 
 $email = $data['email'];
 $password = $data['password'];
@@ -24,14 +20,14 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if ($user && password_verify($password, $user['password'])) {
-    // Do not return password to client
-    echo json_encode([
-        "success" => true,
-        "user" => [
-            "id" => $user['id'],
-            "email" => $user['email']
-        ]
-    ]);
+    $payload = [
+        "user_id" => $user['id'],
+        "email" => $user['email'],
+        "exp" => time() + (60*60), 
+    ];
+    $jwt = JWT::encode($payload, $secretKey, 'HS256');
+
+    echo json_encode(["success" => true, "token" => $jwt]);
 } else {
     echo json_encode(["success" => false, "message" => "Invalid credentials"]);
 }

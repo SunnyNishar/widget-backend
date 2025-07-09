@@ -1,11 +1,7 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
+require_once __DIR__ . '/config/headers.php';
 
-$conn = new mysqli("localhost", "root", "", "widget_db");
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Database connection failed."]));
-}
+require_once __DIR__ . '/config/db.php';
 
 $folderId = isset($_GET['folder_id']) ? intval($_GET['folder_id']) : 0;
 

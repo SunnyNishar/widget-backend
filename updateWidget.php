@@ -1,25 +1,40 @@
 <?php
-ini_set('display_errors', 0); // hide errors from output
-ini_set('log_errors', 1);     // log errors to server log
+require 'vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Content-Type: application/json");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+require_once __DIR__ . '/config/headers.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
+$secretKey = "bf27dc79d09b01ad34c7b33b7dbf0e259b7d7f3b778bc0d8da7b42627c8b5fa9"; // same key as in login.php
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(["error" => "Method not allowed"]);
+// Validate and decode token
+$headers = getallheaders();
+$authHeader = $headers["Authorization"] ?? "";
+if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+    echo json_encode(["success" => false, "error" => "Token not provided"]);
     exit;
 }
 
+$jwt = $matches[1];
+
+try {
+    $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
+    $userId = $decoded->user_id;
+} catch (Exception $e) {
+    echo json_encode(["success" => false, "error" => "Invalid or expired token"]);
+    exit;
+}
+
+// Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input) {
@@ -37,8 +52,9 @@ foreach ($requiredFields as $field) {
     }
 }
 
-$widgetId = $input['widgetId'];
-$folderId = $input['folderId'];
+// Extract values
+$widgetId = intval($input['widgetId']);
+$folderId = intval($input['folderId']);
 $widgetName = $input['widgetName'];
 $fontStyle = $input['fontStyle'];
 $textAlign = $input['textAlign'];
@@ -46,20 +62,24 @@ $addBorder = $input['addBorder'] ? 1 : 0;
 $borderColor = $input['borderColor'];
 $layout = $input['layout'];
 
-// Replace with your actual database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "widget_db";
+// Connect to DB
+require_once __DIR__ . '/config/db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// 🛡 Verify that the widget belongs to the logged-in user
+$checkStmt = $conn->prepare("SELECT id FROM widgets WHERE id = ? AND user_id = ?");
+$checkStmt->bind_param("ii", $widgetId, $userId);
+$checkStmt->execute();
+$checkStmt->store_result();
 
-if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(["success" => false, "error" => "Connection failed: " . $conn->connect_error]);
+if ($checkStmt->num_rows === 0) {
+    echo json_encode(["success" => false, "error" => "Unauthorized or widget not found"]);
+    $checkStmt->close();
+    $conn->close();
     exit;
 }
+$checkStmt->close();
 
+// ✅ Proceed with update
 $sql = "UPDATE widgets SET 
             folder_id = ?, 
             widget_name = ?, 
@@ -68,12 +88,10 @@ $sql = "UPDATE widgets SET
             add_border = ?, 
             border_color = ?, 
             layout = ?
-            -- updated_at = NOW()
-        WHERE id = ?";
+        WHERE id = ? AND user_id = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("isssissi", $folderId, $widgetName, $fontStyle, $textAlign, $addBorder, $borderColor, $layout, $widgetId);
-
+$stmt->bind_param("isssissii", $folderId, $widgetName, $fontStyle, $textAlign, $addBorder, $borderColor, $layout, $widgetId, $userId);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true, "message" => "Widget updated successfully"]);
