@@ -65,7 +65,7 @@ $layout = $input['layout'];
 // Connect to DB
 require_once __DIR__ . '/config/db.php';
 
-// 🛡 Verify that the widget belongs to the logged-in user
+// Verify that the widget belongs to the logged-in user
 $checkStmt = $conn->prepare("SELECT id FROM widgets WHERE id = ? AND user_id = ?");
 $checkStmt->bind_param("ii", $widgetId, $userId);
 $checkStmt->execute();
@@ -79,7 +79,6 @@ if ($checkStmt->num_rows === 0) {
 }
 $checkStmt->close();
 
-// ✅ Proceed with update
 $sql = "UPDATE widgets SET 
             folder_id = ?, 
             widget_name = ?, 

@@ -22,7 +22,7 @@ $secretKey = "bf27dc79d09b01ad34c7b33b7dbf0e259b7d7f3b778bc0d8da7b42627c8b5fa9";
 
 try {
     $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
-    $userId = $decoded->user_id; // ✅ Use user_id from token only
+    $userId = $decoded->user_id; // Use user_id from token only
 } catch (Exception $e) {
     echo json_encode(["success" => false, "error" => "Invalid or expired token"]);
     exit();
