@@ -4,8 +4,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 require_once __DIR__ . '/config/headers.php';
-
-$secretKey = "bf27dc79d09b01ad34c7b33b7dbf0e259b7d7f3b778bc0d8da7b42627c8b5fa9"; // same as in login.php
+require_once __DIR__ . '/config/secret.php';
 
 //Extract JWT from Authorization header
 $headers = getallheaders();
