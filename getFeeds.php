@@ -1,26 +1,35 @@
 <?php
 require_once __DIR__ . '/config/headers.php';
-
 require_once __DIR__ . '/config/db.php';
 
 $folderId = isset($_GET['folder_id']) ? intval($_GET['folder_id']) : 0;
+$feeds = [];
 
-$sql = "SELECT feeds.*, folders.name AS folder_name 
-        FROM feeds 
-        JOIN folders ON feeds.folder_id = folders.id";
+// 1. Get all folders and build a folder map: [folder_id => folder_name]
+$folderMap = [];
+$resultFolders = $conn->query("SELECT id, name FROM folders");
+while ($folder = $resultFolders->fetch_assoc()) {
+    $folderMap[$folder['id']] = $folder['name'];
+} 
 
+// 2. Get feeds 
 if ($folderId > 0) {
-    $sql .= " WHERE feeds.folder_id = $folderId";
+    $stmt = $conn->prepare("SELECT * FROM feeds WHERE folder_id = ?");
+    $stmt->bind_param("i", $folderId);
+} else {
+    $stmt = $conn->prepare("SELECT * FROM feeds");
 }
 
+$stmt->execute();
+$resultFeeds = $stmt->get_result();
 
-$result = $conn->query($sql);
-
-$feeds = [];
-while ($row = $result->fetch_assoc()) {
+while ($row = $resultFeeds->fetch_assoc()) {
+    $row['folder_name'] = $folderMap[$row['folder_id']] ?? null;
     $feeds[] = $row;
 }
 
-echo json_encode($feeds);
+$stmt->close();
 $conn->close();
+
+echo json_encode($feeds);
 ?>

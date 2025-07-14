@@ -35,14 +35,14 @@ try {
 
 // Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
-
 if (!$input) {
     http_response_code(400);
     echo json_encode(["error" => "Invalid JSON input"]);
     exit;
 }
 
-$requiredFields = ['widgetId', 'folderId', 'widgetName', 'fontStyle', 'textAlign', 'addBorder', 'borderColor', 'layout'];
+// Required fields
+$requiredFields = ['widgetId', 'widgetName', 'fontStyle', 'textAlign', 'addBorder', 'borderColor', 'layout'];
 foreach ($requiredFields as $field) {
     if (!isset($input[$field])) {
         http_response_code(400);
@@ -51,20 +51,28 @@ foreach ($requiredFields as $field) {
     }
 }
 
-// Extract values
-$widgetId = intval($input['widgetId']);
-$folderId = intval($input['folderId']);
-$widgetName = $input['widgetName'];
-$fontStyle = $input['fontStyle'];
-$textAlign = $input['textAlign'];
-$addBorder = $input['addBorder'] ? 1 : 0;
-$borderColor = $input['borderColor'];
-$layout = $input['layout'];
+// Optional fields: folderId or rssUrl — at least one required
+$folderId = isset($input['folderId']) ? intval($input['folderId']) : null;
+$rssUrl = isset($input['rssUrl']) ? trim($input['rssUrl']) : null;
 
-// Connect to DB
+if (!$folderId && !$rssUrl) {
+    echo json_encode(["success" => false, "error" => "Either folderId or rssUrl must be provided"]);
+    exit;
+}
+
+// Extract and sanitize values
+$widgetId    = intval($input['widgetId']);
+$widgetName  = trim($input['widgetName']);
+$fontStyle   = trim($input['fontStyle']);
+$textAlign   = trim($input['textAlign']);
+$addBorder   = $input['addBorder'] ? 1 : 0;
+$borderColor = trim($input['borderColor']);
+$layout      = trim($input['layout']);
+
+// DB connection
 require_once __DIR__ . '/config/db.php';
 
-// Verify that the widget belongs to the logged-in user
+// Check ownership
 $checkStmt = $conn->prepare("SELECT id FROM widgets WHERE id = ? AND user_id = ?");
 $checkStmt->bind_param("ii", $widgetId, $userId);
 $checkStmt->execute();
@@ -78,8 +86,10 @@ if ($checkStmt->num_rows === 0) {
 }
 $checkStmt->close();
 
+// Update query
 $sql = "UPDATE widgets SET 
             folder_id = ?, 
+            rss_url = ?, 
             widget_name = ?, 
             font_style = ?, 
             text_align = ?, 
@@ -89,8 +99,21 @@ $sql = "UPDATE widgets SET
         WHERE id = ? AND user_id = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("isssissii", $folderId, $widgetName, $fontStyle, $textAlign, $addBorder, $borderColor, $layout, $widgetId, $userId);
+$stmt->bind_param(
+    "isssssssii",
+    $folderId,
+    $rssUrl,
+    $widgetName,
+    $fontStyle,
+    $textAlign,
+    $addBorder,
+    $borderColor,
+    $layout,
+    $widgetId,
+    $userId
+);
 
+// Execute and return result
 if ($stmt->execute()) {
     echo json_encode(["success" => true, "message" => "Widget updated successfully"]);
 } else {
