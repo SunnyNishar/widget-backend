@@ -22,6 +22,7 @@ if ($xml === false) {
     exit;
 }
 
+
 $items = [];
 $namespaces = $xml->getNamespaces(true);
 $feedItems = $xml->channel->item ?? $xml->entry;
@@ -33,6 +34,9 @@ foreach ($feedItems as $item) {
     $link = (string) ($item->link ?? '');
     $image = '';
     
+    if (isset($item->image)) {
+        $image = (string) $item->image;
+    }
     // Check <enclosure> tag
     if (isset($item->enclosure) && (string) $item->enclosure['type'] === 'image/jpeg') {
         $image = (string) $item->enclosure['url'];
