@@ -38,7 +38,7 @@ foreach ($feedItems as $item) {
         $image = (string) $item->image;
     }
     // Check <enclosure> tag
-    if (isset($item->enclosure) && (string) $item->enclosure['type'] === 'image/jpeg') {
+    if (isset($item->enclosure) && (string) $item->enclosure['type'] === 'image/jpeg' || 'image/png') {
         $image = (string) $item->enclosure['url'];
     }
 

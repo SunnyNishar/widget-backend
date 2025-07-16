@@ -28,7 +28,13 @@ try {
 require_once __DIR__ . '/config/db.php';
 
 //Fetch widgets for authenticated user
-$stmt = $conn->prepare("SELECT id, widget_name FROM widgets WHERE user_id = ?");
+$stmt = $conn->prepare("
+  SELECT w.id, w.widget_name, w.rss_url, w.folder_id, f.name AS folder_name
+  FROM widgets w
+  LEFT JOIN folders f ON w.folder_id = f.id
+  WHERE w.user_id = ?
+");
+
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 
