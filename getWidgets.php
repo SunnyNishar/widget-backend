@@ -6,7 +6,6 @@ use Firebase\JWT\Key;
 require_once __DIR__ . '/config/headers.php';
 require_once __DIR__ . '/config/secret.php';
 
-//Extract JWT from Authorization header
 $headers = getallheaders();
 $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
 
@@ -24,12 +23,10 @@ try {
     exit();
 }
 
-//Connect to database
 require_once __DIR__ . '/config/db.php';
 
-//Fetch widgets for authenticated user
 $stmt = $conn->prepare("
-  SELECT w.id, w.widget_name, w.rss_url, w.folder_id, f.name AS folder_name
+  SELECT w.id, w.widget_name, w.rss_url, w.folder_id, w.settings, f.name AS folder_name
   FROM widgets w
   LEFT JOIN folders f ON w.folder_id = f.id
   WHERE w.user_id = ?
@@ -42,7 +39,20 @@ $result = $stmt->get_result();
 $widgets = [];
 
 while ($row = $result->fetch_assoc()) {
-    $widgets[] = $row;
+    $settings = json_decode($row['settings'], true);
+
+    $widgets[] = [
+        'id' => $row['id'],
+        'widget_name' => $row['widget_name'],
+        'rss_url' => $row['rss_url'],
+        'folder_id' => $row['folder_id'],
+        'folder_name' => $row['folder_name'],
+        'layout' => $settings['layout'] ?? null,
+        'font_style' => $settings['fontStyle'] ?? null,
+        'text_align' => $settings['textAlign'] ?? null,
+        'add_border' => $settings['addBorder'] ?? null,
+        'border_color' => $settings['borderColor'] ?? null,
+    ];
 }
 
 echo json_encode($widgets);

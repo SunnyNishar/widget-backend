@@ -18,6 +18,7 @@ if (!isset($_GET['id'])) {
 
 $widgetId = $_GET['id'];
 
+// DB connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -31,6 +32,7 @@ if ($conn->connect_error) {
     exit;
 }
 
+// Fetch widget by ID
 $sql = "SELECT * FROM widgets WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $widgetId);
@@ -45,6 +47,21 @@ if ($result->num_rows === 0) {
 }
 
 $widget = $result->fetch_assoc();
+
+// Decode JSON settings
+$settings = json_decode($widget['settings'], true);
+if (isset($settings['addBorder']) && !isset($settings['border'])) {
+    $settings['border'] = $settings['addBorder'];
+    unset($settings['addBorder']);
+}
+// Merge settings into the main widget array
+if (is_array($settings)) {
+    $widget = array_merge($widget, $settings);
+}
+
+
+// Optionally remove the raw settings field if not needed in frontend
+// unset($widget['settings']);
 
 echo json_encode([
     "success" => true,

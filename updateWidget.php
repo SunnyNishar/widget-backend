@@ -42,7 +42,7 @@ if (!$input) {
 }
 
 // Required fields
-$requiredFields = ['widgetId', 'widgetName', 'fontStyle', 'textAlign', 'addBorder', 'borderColor', 'layout'];
+$requiredFields = ['widgetId', 'widgetName', 'layout', 'customSettings'];
 foreach ($requiredFields as $field) {
     if (!isset($input[$field])) {
         http_response_code(400);
@@ -61,13 +61,25 @@ if (!$folderId && !$rssUrl) {
 }
 
 // Extract and sanitize values
-$widgetId    = intval($input['widgetId']);
-$widgetName  = trim($input['widgetName']);
-$fontStyle   = trim($input['fontStyle']);
-$textAlign   = trim($input['textAlign']);
-$addBorder   = $input['addBorder'] ? 1 : 0;
-$borderColor = trim($input['borderColor']);
-$layout      = trim($input['layout']);
+$widgetId = intval($input['widgetId']);
+$widgetName = trim($input['widgetName']);
+$layout = trim($input['layout']);
+
+// FIX: Get the settings from input and assign to $settings variable
+$settings = $input['customSettings'];
+
+$customSettings = json_encode([
+    'fontStyle' => $settings['fontStyle'] ?? 'Arial',
+    'textAlign' => $settings['textAlign'] ?? 'left',
+    'border' => $settings['border'] ?? false,
+    'borderColor' => $settings['borderColor'] ?? '#000000',
+    'widthType' => $settings['widthType'] ?? 'responsive',
+    'widthPixels' => isset($settings['widthPixels']) ? intval($settings['widthPixels']) : null,
+    'heightType' => $settings['heightType'] ?? 'auto',
+    'heightPixels' => isset($settings['heightPixels']) ? intval($settings['heightPixels']) : null,
+    'heightPosts' => isset($settings['heightPosts']) ? intval($settings['heightPosts']) : null,
+    'autoScroll' => $settings['autoScroll'] ?? false,
+]);
 
 // DB connection
 require_once __DIR__ . '/config/db.php';
@@ -91,24 +103,18 @@ $sql = "UPDATE widgets SET
             folder_id = ?, 
             rss_url = ?, 
             widget_name = ?, 
-            font_style = ?, 
-            text_align = ?, 
-            add_border = ?, 
-            border_color = ?, 
-            layout = ?
+            layout = ?, 
+            settings = ?
         WHERE id = ? AND user_id = ?";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "isssssssii",
+    "issssii",
     $folderId,
     $rssUrl,
     $widgetName,
-    $fontStyle,
-    $textAlign,
-    $addBorder,
-    $borderColor,
     $layout,
+    $customSettings,
     $widgetId,
     $userId
 );

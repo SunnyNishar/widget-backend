@@ -22,7 +22,6 @@ if ($xml === false) {
     exit;
 }
 
-
 $items = [];
 $namespaces = $xml->getNamespaces(true);
 $feedItems = $xml->channel->item ?? $xml->entry;

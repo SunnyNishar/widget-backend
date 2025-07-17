@@ -1,0 +1,21 @@
+Array
+(
+    [widgetName] => te
+    [layout] => grid1
+    [folderId] => 1
+    [rssUrl] => 
+    [customSettings] => Array
+        (
+            [fontStyle] => Arial
+            [textAlign] => left
+            [border] => 1
+            [borderColor] => #000000
+            [widthType] => responsive
+            [widthPixels] => 350
+            [heightType] => pixels
+            [heightPixels] => 350
+            [heightPosts] => 3
+            [autoScroll] => 
+        )
+
+)

@@ -29,28 +29,28 @@ try {
     exit();
 }
 
-$data = json_decode(file_get_contents("php://input"));
+// FIX: Decode as associative array instead of object
+$data = json_decode(file_get_contents("php://input"), true);
 
 require_once __DIR__ . '/config/db.php';
 
 // Validate required fields
-if (
-    !isset($data->widgetName) || !isset($data->layout) ||
-    !isset($data->fontStyle) || !isset($data->textAlign) ||
-    !isset($data->addBorder) || !isset($data->borderColor)
+if (!isset($data['widgetName']) ||
+    !isset($data['layout']) ||
+    !isset($data['customSettings'])
 ) {
     echo json_encode(["success" => false, "error" => "Missing required fields"]);
     exit();
 }
 
-$widgetName = $data->widgetName;
-$folderId = isset($data->folderId) ? intval($data->folderId) : null;
-$rssUrl = isset($data->rssUrl) ? trim($data->rssUrl) : null;
-$layout = $data->layout;
-$fontStyle = $data->fontStyle;
-$textAlign = $data->textAlign;
-$addBorder = $data->addBorder;
-$borderColor = $data->borderColor;
+$widgetName = $data['widgetName'];
+$folderId = isset($data['folderId']) ? intval($data['folderId']) : null;
+$rssUrl = isset($data['rssUrl']) ? trim($data['rssUrl']) : null;
+$layout = $data['layout'];
+
+// FIX: Handle settings properly as array
+$settings = $data['customSettings'];
+$settingsJson = json_encode($settings);
 
 // Validate: at least one of folderId or rssUrl must be present
 if (!$folderId && !$rssUrl) {
@@ -73,14 +73,15 @@ if ($checkStmt->num_rows > 0) {
 $checkStmt->close();
 
 // Insert widget
-$stmt = $conn->prepare("INSERT INTO widgets (user_id, folder_id, rss_url, widget_name, font_style, text_align, add_border, border_color, layout) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("iisssssss", $userId, $folderId, $rssUrl, $widgetName, $fontStyle, $textAlign, $addBorder, $borderColor, $layout);
+$stmt = $conn->prepare("INSERT INTO widgets (user_id, folder_id, rss_url, widget_name, layout, settings) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("iissss", $userId, $folderId, $rssUrl, $widgetName, $layout, $settingsJson);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true]);
 } else {
     echo json_encode(["success" => false, "error" => $stmt->error]);
 }
+file_put_contents("debug_payload.txt", print_r($data, true));
 
 $stmt->close();
 $conn->close();
