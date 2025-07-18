@@ -79,6 +79,20 @@ $customSettings = json_encode([
     'heightPixels' => isset($settings['heightPixels']) ? intval($settings['heightPixels']) : null,
     'heightPosts' => isset($settings['heightPosts']) ? intval($settings['heightPosts']) : null,
     'autoScroll' => $settings['autoScroll'] ?? false,
+    'useCustomTitle' => $settings['useCustomTitle'] ?? false,
+    'mainTitle' => $settings['mainTitle'] ?? '',
+    'titleFontSize' => isset($settings['titleFontSize']) ? intval($settings['titleFontSize']) : 16,
+    'titleBold' => isset($settings['titleBold']) ? (bool)$settings['titleBold'] : false,
+    'titleFontColor' => $settings['titleFontColor'] ?? '#000000',
+    'titleBgColor' => $settings['titleBgColor'] ?? '#ffffff',
+    'useCustomContent' => $settings['useCustomContent'] ?? false,
+    'showFeedTitle' => $settings['showFeedTitle'] ?? true,
+    'showFeedDescription' => $settings['showFeedDescription'] ?? true,
+    'showFeedDate' => $settings['showFeedDate'] ?? true,
+    'feedTitleBold' => isset($settings['feedTitleBold']) ? (bool)$settings['feedTitleBold'] : false,
+    'feedDescriptionBold' => isset($settings['feedDescriptionBold']) ? (bool)$settings['feedDescriptionBold'] : false,
+    'feedTitleFontColor' => $settings['feedTitleFontColor'] ?? '#000000',
+    'feedTitleFontSize' => isset($settings['feedTitleFontSize']) ? intval($settings['feedTitleFontSize']) : 16,
 ]);
 
 // DB connection

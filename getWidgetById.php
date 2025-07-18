@@ -1,8 +1,5 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Headers: Content-Type");
+require_once __DIR__ . '/config/headers.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
@@ -18,11 +15,7 @@ if (!isset($_GET['id'])) {
 
 $widgetId = $_GET['id'];
 
-// DB connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "widget_db"; 
+require_once __DIR__ . '/config/db.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -58,10 +51,6 @@ if (isset($settings['addBorder']) && !isset($settings['border'])) {
 if (is_array($settings)) {
     $widget = array_merge($widget, $settings);
 }
-
-
-// Optionally remove the raw settings field if not needed in frontend
-// unset($widget['settings']);
 
 echo json_encode([
     "success" => true,
