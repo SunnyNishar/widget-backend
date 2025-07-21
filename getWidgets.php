@@ -52,6 +52,10 @@ while ($row = $result->fetch_assoc()) {
         'text_align' => $settings['textAlign'] ?? null,
         'add_border' => $settings['addBorder'] ?? null,
         'border_color' => $settings['borderColor'] ?? null,
+        'widthType' => $settings['widthType'] ?? 'responsive',
+    'widthPixels' => $settings['widthPixels'] ?? 350,
+    'heightType' => $settings['heightType'] ?? 'pixels',
+    'heightPixels' => $settings['heightPixels'] ?? 400,
     ];
 }
 

@@ -1,35 +1,36 @@
 Array
 (
-    [widgetName] => first
-    [layout] => grid1
+    [widgetName] => test4
+    [layout] => card2
     [folderId] => 
-    [rssUrl] => https://thepointsguy.com/feeds/the-points-guy/samsung/
+    [rssUrl] => https://www.livemint.com/rss/money
     [customSettings] => Array
         (
-            [fontStyle] => Times New Roman
+            [fontStyle] => Arial
             [textAlign] => left
-            [border] => 1
+            [border] => 
             [borderColor] => #000000
             [widthType] => responsive
             [widthPixels] => 350
-            [heightType] => posts
+            [heightType] => pixels
             [heightPixels] => 350
-            [heightPosts] => 2
+            [heightPosts] => 3
             [autoScroll] => 
             [useCustomTitle] => 1
-            [mainTitle] => UHSBD
-            [titleFontSize] => 21
+            [mainTitle] => 
+            [titleFontSize] => 16
             [titleBold] => 1
-            [titleFontColor] => #ffffff
-            [titleBgColor] => #6d8cd1
+            [titleFontColor] => #6d8cd1
+            [titleBgColor] => #af3c3c
             [useCustomContent] => 1
             [showFeedTitle] => 1
             [showFeedDescription] => 1
             [showFeedDate] => 1
-            [feedTitleBold] => 1
+            [feedTitleBold] => 
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
-            [feedTitleFontSize] => 19
+            [feedTitleFontSize] => 16
+            [backgroundColor] => #490d0d
         )
 
 )

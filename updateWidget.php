@@ -93,6 +93,7 @@ $customSettings = json_encode([
     'feedDescriptionBold' => isset($settings['feedDescriptionBold']) ? (bool)$settings['feedDescriptionBold'] : false,
     'feedTitleFontColor' => $settings['feedTitleFontColor'] ?? '#000000',
     'feedTitleFontSize' => isset($settings['feedTitleFontSize']) ? intval($settings['feedTitleFontSize']) : 16,
+    'backgroundColor'=> $settings['backgroundColor'] ?? '#ffffff',
 ]);
 
 // DB connection
