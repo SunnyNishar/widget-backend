@@ -56,6 +56,7 @@ while ($row = $result->fetch_assoc()) {
     'widthPixels' => $settings['widthPixels'] ?? 350,
     'heightType' => $settings['heightType'] ?? 'pixels',
     'heightPixels' => $settings['heightPixels'] ?? 400,
+    'heightPosts' => $settings['heightPosts'] ?? 3,
     ];
 }
 

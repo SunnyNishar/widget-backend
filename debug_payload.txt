@@ -1,16 +1,16 @@
 Array
 (
-    [widgetName] => test4
-    [layout] => card2
+    [widgetName] => final
+    [layout] => grid1
     [folderId] => 
-    [rssUrl] => https://www.livemint.com/rss/money
+    [rssUrl] => https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml
     [customSettings] => Array
         (
             [fontStyle] => Arial
             [textAlign] => left
-            [border] => 
-            [borderColor] => #000000
-            [widthType] => responsive
+            [border] => 1
+            [borderColor] => #ff0000
+            [widthType] => pixels
             [widthPixels] => 350
             [heightType] => pixels
             [heightPixels] => 350
@@ -21,7 +21,7 @@ Array
             [titleFontSize] => 16
             [titleBold] => 1
             [titleFontColor] => #6d8cd1
-            [titleBgColor] => #af3c3c
+            [titleBgColor] => #000000
             [useCustomContent] => 1
             [showFeedTitle] => 1
             [showFeedDescription] => 1
@@ -30,7 +30,7 @@ Array
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #490d0d
+            [backgroundColor] => #000000
         )
 
 )
