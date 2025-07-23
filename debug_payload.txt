@@ -1,27 +1,27 @@
 Array
 (
-    [widgetName] => final
+    [widgetName] => sticky
     [layout] => grid1
     [folderId] => 
-    [rssUrl] => https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml
+    [rssUrl] => https://qz.com/rss
     [customSettings] => Array
         (
             [fontStyle] => Arial
-            [textAlign] => left
+            [textAlign] => justify
             [border] => 1
-            [borderColor] => #ff0000
+            [borderColor] => #000000
             [widthType] => pixels
-            [widthPixels] => 350
-            [heightType] => pixels
+            [widthPixels] => 428
+            [heightType] => posts
             [heightPixels] => 350
-            [heightPosts] => 3
+            [heightPosts] => 1
             [autoScroll] => 
             [useCustomTitle] => 1
             [mainTitle] => 
             [titleFontSize] => 16
             [titleBold] => 1
-            [titleFontColor] => #6d8cd1
-            [titleBgColor] => #000000
+            [titleFontColor] => #c8d4e0
+            [titleBgColor] => #4d5479
             [useCustomContent] => 1
             [showFeedTitle] => 1
             [showFeedDescription] => 1
@@ -30,7 +30,7 @@ Array
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #000000
+            [backgroundColor] => #d6e2eb
         )
 
 )
