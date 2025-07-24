@@ -1,28 +1,28 @@
 Array
 (
-    [widgetName] => sticky
+    [widgetName] => check2
     [layout] => grid1
-    [folderId] => 
-    [rssUrl] => https://qz.com/rss
+    [folderId] => 2
+    [rssUrl] => 
     [customSettings] => Array
         (
             [fontStyle] => Arial
-            [textAlign] => justify
+            [textAlign] => left
             [border] => 1
             [borderColor] => #000000
-            [widthType] => pixels
-            [widthPixels] => 428
-            [heightType] => posts
+            [widthType] => responsive
+            [widthPixels] => 350
+            [heightType] => pixels
             [heightPixels] => 350
-            [heightPosts] => 1
+            [heightPosts] => 3
             [autoScroll] => 
             [useCustomTitle] => 1
             [mainTitle] => 
             [titleFontSize] => 16
             [titleBold] => 1
-            [titleFontColor] => #c8d4e0
-            [titleBgColor] => #4d5479
-            [useCustomContent] => 1
+            [titleFontColor] => #6d8cd1
+            [titleBgColor] => #ffffff
+            [useCustomContent] => 
             [showFeedTitle] => 1
             [showFeedDescription] => 1
             [showFeedDate] => 1
@@ -30,7 +30,7 @@ Array
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #d6e2eb
+            [backgroundColor] => #ffffff
         )
 
 )
