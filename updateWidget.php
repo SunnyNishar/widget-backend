@@ -64,6 +64,7 @@ if (!$folderId && !$rssUrl) {
 $widgetId = intval($input['widgetId']);
 $widgetName = trim($input['widgetName']);
 $layout = trim($input['layout']);
+$actualHeight = intval($input['actualHeight'] ?? 0);
 
 // FIX: Get the settings from input and assign to $settings variable
 $settings = $input['customSettings'];
@@ -119,17 +120,19 @@ $sql = "UPDATE widgets SET
             rss_url = ?, 
             widget_name = ?, 
             layout = ?, 
-            settings = ?
+            settings = ?, 
+            actualHeight = ?
         WHERE id = ? AND user_id = ?";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "issssii",
+    "issssiii",
     $folderId,
     $rssUrl,
     $widgetName,
     $layout,
     $customSettings,
+    $actualHeight,
     $widgetId,
     $userId
 );

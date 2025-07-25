@@ -47,6 +47,7 @@ $widgetName = $data['widgetName'];
 $folderId = isset($data['folderId']) ? intval($data['folderId']) : null;
 $rssUrl = isset($data['rssUrl']) ? trim($data['rssUrl']) : null;
 $layout = $data['layout'];
+$actualHeight = intval($data['actualHeight'] ?? 0);
 
 // FIX: Handle settings properly as array
 $settings = $data['customSettings'];
@@ -73,8 +74,8 @@ if ($checkStmt->num_rows > 0) {
 $checkStmt->close();
 
 // Insert widget
-$stmt = $conn->prepare("INSERT INTO widgets (user_id, folder_id, rss_url, widget_name, layout, settings) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("iissss", $userId, $folderId, $rssUrl, $widgetName, $layout, $settingsJson);
+$stmt = $conn->prepare("INSERT INTO widgets (user_id, folder_id, rss_url, widget_name, layout, settings, actualHeight) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("iissssi", $userId, $folderId, $rssUrl, $widgetName, $layout, $settingsJson, $actualHeight);
 
 if ($stmt->execute()) {
     echo json_encode(["success" => true]);

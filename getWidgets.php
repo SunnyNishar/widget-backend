@@ -26,7 +26,7 @@ try {
 require_once __DIR__ . '/config/db.php';
 
 $stmt = $conn->prepare("
-  SELECT w.id, w.widget_name, w.rss_url, w.folder_id, w.settings, f.name AS folder_name
+  SELECT w.id, w.widget_name, w.rss_url, w.folder_id, w.settings, w.actualHeight, f.name AS folder_name
   FROM widgets w
   LEFT JOIN folders f ON w.folder_id = f.id
   WHERE w.user_id = ?
@@ -57,6 +57,7 @@ while ($row = $result->fetch_assoc()) {
         'heightType' => $settings['heightType'] ?? 'pixels',
         'heightPixels' => $settings['heightPixels'] ?? 400,
         'heightPosts' => $settings['heightPosts'] ?? 3,
+        'actualHeight' => $row['actualHeight'] ?? null,
     ];
 }
 

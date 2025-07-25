@@ -1,28 +1,29 @@
 Array
 (
-    [widgetName] => check2
+    [widgetName] => oncemore
     [layout] => grid1
-    [folderId] => 2
-    [rssUrl] => 
+    [folderId] => 
+    [rssUrl] => https://www.dnaindia.com/feeds/entertainment.xml
+    [actualHeight] => 743
     [customSettings] => Array
         (
             [fontStyle] => Arial
             [textAlign] => left
             [border] => 1
             [borderColor] => #000000
-            [widthType] => responsive
+            [widthType] => pixels
             [widthPixels] => 350
-            [heightType] => pixels
+            [heightType] => posts
             [heightPixels] => 350
-            [heightPosts] => 3
+            [heightPosts] => 4
             [autoScroll] => 
             [useCustomTitle] => 1
             [mainTitle] => 
             [titleFontSize] => 16
             [titleBold] => 1
             [titleFontColor] => #6d8cd1
-            [titleBgColor] => #ffffff
-            [useCustomContent] => 
+            [titleBgColor] => #ff0000
+            [useCustomContent] => 1
             [showFeedTitle] => 1
             [showFeedDescription] => 1
             [showFeedDate] => 1
@@ -30,7 +31,7 @@ Array
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #ffffff
+            [backgroundColor] => #ff0000
         )
 
 )
