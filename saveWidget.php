@@ -73,7 +73,6 @@ if ($checkStmt->num_rows > 0) {
 }
 $checkStmt->close();
 
-// Insert widget
 $stmt = $conn->prepare("INSERT INTO widgets (user_id, folder_id, rss_url, widget_name, layout, settings, actualHeight) VALUES (?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("iissssi", $userId, $folderId, $rssUrl, $widgetName, $layout, $settingsJson, $actualHeight);
 

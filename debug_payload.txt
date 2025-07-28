@@ -1,10 +1,10 @@
 Array
 (
-    [widgetName] => oncemore
+    [widgetName] => hurrah
     [layout] => grid1
-    [folderId] => 
-    [rssUrl] => https://www.dnaindia.com/feeds/entertainment.xml
-    [actualHeight] => 743
+    [folderId] => 2
+    [rssUrl] => 
+    [actualHeight] => 507
     [customSettings] => Array
         (
             [fontStyle] => Arial
@@ -15,14 +15,14 @@ Array
             [widthPixels] => 350
             [heightType] => posts
             [heightPixels] => 350
-            [heightPosts] => 4
+            [heightPosts] => 3
             [autoScroll] => 
             [useCustomTitle] => 1
             [mainTitle] => 
             [titleFontSize] => 16
             [titleBold] => 1
             [titleFontColor] => #6d8cd1
-            [titleBgColor] => #ff0000
+            [titleBgColor] => #ffffff
             [useCustomContent] => 1
             [showFeedTitle] => 1
             [showFeedDescription] => 1
@@ -31,7 +31,7 @@ Array
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #ff0000
+            [backgroundColor] => #ffffff
         )
 
 )
