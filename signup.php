@@ -16,4 +16,5 @@ if ($stmt->execute()) {
 } else {
     echo json_encode(["success" => false, "message" => "Email may already be taken"]);
 }
+$conn->close();
 ?>

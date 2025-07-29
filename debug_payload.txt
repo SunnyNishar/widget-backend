@@ -1,10 +1,10 @@
 Array
 (
-    [widgetName] => hurrah
+    [widgetName] => chotu
     [layout] => grid1
-    [folderId] => 2
-    [rssUrl] => 
-    [actualHeight] => 507
+    [folderId] => 
+    [rssUrl] => https://therecipecritic.com/feed/
+    [actualHeight] => 195
     [customSettings] => Array
         (
             [fontStyle] => Arial
@@ -12,26 +12,26 @@ Array
             [border] => 1
             [borderColor] => #000000
             [widthType] => pixels
-            [widthPixels] => 350
+            [widthPixels] => 185
             [heightType] => posts
             [heightPixels] => 350
-            [heightPosts] => 3
-            [autoScroll] => 
+            [heightPosts] => 1
+            [autoScroll] => 1
             [useCustomTitle] => 1
-            [mainTitle] => 
+            [mainTitle] => Chotu
             [titleFontSize] => 16
             [titleBold] => 1
-            [titleFontColor] => #6d8cd1
-            [titleBgColor] => #ffffff
+            [titleFontColor] => #ffffff
+            [titleBgColor] => #00ff88
             [useCustomContent] => 1
             [showFeedTitle] => 1
-            [showFeedDescription] => 1
-            [showFeedDate] => 1
+            [showFeedDescription] => 
+            [showFeedDate] => 
             [feedTitleBold] => 
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #ffffff
+            [backgroundColor] => #cbe2cf
         )
 
 )
