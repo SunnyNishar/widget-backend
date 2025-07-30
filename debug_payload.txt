@@ -1,37 +1,37 @@
 Array
 (
-    [widgetName] => chotu
+    [widgetName] => alfred
     [layout] => grid1
     [folderId] => 
-    [rssUrl] => https://therecipecritic.com/feed/
-    [actualHeight] => 195
+    [rssUrl] => https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml
+    [actualHeight] => 320
     [customSettings] => Array
         (
             [fontStyle] => Arial
             [textAlign] => left
             [border] => 1
             [borderColor] => #000000
-            [widthType] => pixels
-            [widthPixels] => 185
+            [widthType] => responsive
+            [widthPixels] => 350
             [heightType] => posts
             [heightPixels] => 350
-            [heightPosts] => 1
-            [autoScroll] => 1
-            [useCustomTitle] => 1
-            [mainTitle] => Chotu
+            [heightPosts] => 2
+            [autoScroll] => 
+            [useCustomTitle] => 
+            [mainTitle] => 
             [titleFontSize] => 16
             [titleBold] => 1
-            [titleFontColor] => #ffffff
-            [titleBgColor] => #00ff88
+            [titleFontColor] => #6d8cd1
+            [titleBgColor] => #ffffff
             [useCustomContent] => 1
             [showFeedTitle] => 1
-            [showFeedDescription] => 
-            [showFeedDate] => 
+            [showFeedDescription] => 1
+            [showFeedDate] => 1
             [feedTitleBold] => 
             [feedDescriptionBold] => 
             [feedTitleFontColor] => #6d8cd1
             [feedTitleFontSize] => 16
-            [backgroundColor] => #cbe2cf
+            [backgroundColor] => #ffffff
         )
 
 )

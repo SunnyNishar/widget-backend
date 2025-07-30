@@ -58,7 +58,7 @@ foreach ($feedItems as $item) {
 
     $items[] = [
         'title' => strip_tags(html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8')),
-'description' => strip_tags(html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8')),
+        'description' => strip_tags(html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8')),
         'image' => $image,
         'date' => $date,
         'url' => $link,
